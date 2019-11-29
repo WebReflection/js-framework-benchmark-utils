@@ -1,6 +1,6 @@
 {
   "name": "js-framework-benchmark-utils",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "An utility to centralize and rule common js-framework-benchmark test cases.",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -13,7 +13,10 @@
     "type": "git",
     "url": "git+https://github.com/WebReflection/js-framework-benchmark-utils.git"
   },
-  "keywords": ["js-framework-benchmark", "utils"],
+  "keywords": [
+    "js-framework-benchmark",
+    "utils"
+  ],
   "author": "Andrea Giammarchi",
   "license": "ISC",
   "bugs": {

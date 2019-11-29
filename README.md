@@ -1,9 +1,15 @@
 # js-framework-benchmark-utils
+
+[![Build Status](https://travis-ci.com/WebReflection/js-framework-benchmark-utils.svg?branch=master)](https://travis-ci.com/WebReflection/js-framework-benchmark-utils)
+
 An utility to centralize and rule common js-framework-benchmark test cases.
 
 ```js
-import {State} from 'js-framework-benchmark-utils';
-// or const State = require('js-framework-benchmark-utils');
+import {State, buildData} from 'js-framework-benchmark-utils';
+// or const {State, buildData} = require('js-framework-benchmark-utils');
+
+buildData(1000);  // creates an Array with 1000 items
+buildData(10000); // creates an Array with 10000 items
 
 const state = State(
   // function that will receive the state reference per each update

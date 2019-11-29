@@ -68,7 +68,10 @@ export default (update, immutable = false) => {
     update() {
       if (immutable)
         scope.data = scope.data.slice(0);
-      scope.data.forEach(immutable ? _new : _update);
+      const {data} = scope;
+      const {length} = data;
+      for (let cb = immutable ? _new : _update, i = 0; i < length; i += 10)
+        cb(data[i], i, data);
       update(scope);
     },
     selected: -1,

@@ -1,24 +1,34 @@
-let did = 1;
-const buildData = (count) => {
+let _id = 1;
+const _build = (count) => {
     const adjectives = ["pretty", "large", "big", "small", "tall", "short", "long", "handsome", "plain", "quaint", "clean", "elegant", "easy", "angry", "crazy", "helpful", "mushy", "odd", "unsightly", "adorable", "important", "inexpensive", "cheap", "expensive", "fancy"];
     const colours = ["red", "yellow", "blue", "green", "pink", "brown", "purple", "brown", "white", "black", "orange"];
     const nouns = ["table", "chair", "house", "bbq", "desk", "car", "pony", "cookie", "sandwich", "burger", "pizza", "mouse", "keyboard"];
     const data = [];
     for (let i = 0; i < count; i++) {
         data.push({
-            id: did++,
+            id: _id++,
             label: adjectives[_random(adjectives.length)] + " " + colours[_random(colours.length)] + " " + nouns[_random(nouns.length)]
         });
     }
     return data;
 };
 
+const _new = (item, i, data) => {
+  data[i] = {...item, label: item.label + ' !!!'};
+};
+
 const _random = max => Math.round(Math.random() * 1000) % max;
 
-export default update => {
+const _update = item => {
+  item.label += ' !!!';
+};
+
+export default (update, immutable = false) => {
   const scope = {
     add() {
-      scope.data.push(...buildData(1000));
+      if (immutable)
+        scope.data = scope.data.slice(0);
+      scope.data.push(..._build(1000));
       update(scope);
     },
     clear() {
@@ -26,17 +36,18 @@ export default update => {
       update(scope);
     },
     remove(id) {
+      if (immutable)
+        scope.data = scope.data.slice(0);
       const {data} = scope;
-      const idx = data.findIndex(d => d.id === id);
-      data.splice(idx, 1);
+      data.splice(data.findIndex(d => d.id === id), 1);
       update(scope);
     },
     run() {
-      scope.data = buildData(1000);
+      scope.data = _build(1000);
       update(scope);
     },
     runLots() {
-      scope.data = buildData(10000);
+      scope.data = _build(10000);
       update(scope);
     },
     select(id) {
@@ -44,6 +55,8 @@ export default update => {
       update(scope);
     },
     swapRows() {
+      if (immutable)
+        scope.data = scope.data.slice(0);
       const {data} = scope;
       if (data.length > 998) {
         const tmp = data[1];
@@ -53,13 +66,13 @@ export default update => {
       update(scope);
     },
     update() {
-      const {data} = scope;
-      for (let i = 0, {length} = data; i < length; i += 10)
-        data[i].label += ' !!!';
+      if (immutable)
+        scope.data = scope.data.slice(0);
+      scope.data.forEach(immutable ? _new : _update);
       update(scope);
     },
     selected: -1,
-    data: [],
+    data: []
   };
   return scope;
 };

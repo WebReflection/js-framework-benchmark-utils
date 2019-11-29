@@ -1,5 +1,5 @@
 'use strict';
-let did = 1;
+let _id = 1;
 const buildData = (count) => {
     const adjectives = ["pretty", "large", "big", "small", "tall", "short", "long", "handsome", "plain", "quaint", "clean", "elegant", "easy", "angry", "crazy", "helpful", "mushy", "odd", "unsightly", "adorable", "important", "inexpensive", "cheap", "expensive", "fancy"];
     const colours = ["red", "yellow", "blue", "green", "pink", "brown", "purple", "brown", "white", "black", "orange"];
@@ -7,18 +7,29 @@ const buildData = (count) => {
     const data = [];
     for (let i = 0; i < count; i++) {
         data.push({
-            id: did++,
+            id: _id++,
             label: adjectives[_random(adjectives.length)] + " " + colours[_random(colours.length)] + " " + nouns[_random(nouns.length)]
         });
     }
     return data;
 };
+exports.buildData = buildData;
+
+const _new = (item, i, data) => {
+  data[i] = {...item, label: item.label + ' !!!'};
+};
 
 const _random = max => Math.round(Math.random() * 1000) % max;
 
-module.exports = update => {
+const _update = item => {
+  item.label += ' !!!';
+};
+
+const State = (update, immutable = false) => {
   const scope = {
     add() {
+      if (immutable)
+        scope.data = scope.data.slice(0);
       scope.data.push(...buildData(1000));
       update(scope);
     },
@@ -27,9 +38,10 @@ module.exports = update => {
       update(scope);
     },
     remove(id) {
+      if (immutable)
+        scope.data = scope.data.slice(0);
       const {data} = scope;
-      const idx = data.findIndex(d => d.id === id);
-      data.splice(idx, 1);
+      data.splice(data.findIndex(d => d.id === id), 1);
       update(scope);
     },
     run() {
@@ -45,6 +57,8 @@ module.exports = update => {
       update(scope);
     },
     swapRows() {
+      if (immutable)
+        scope.data = scope.data.slice(0);
       const {data} = scope;
       if (data.length > 998) {
         const tmp = data[1];
@@ -54,13 +68,17 @@ module.exports = update => {
       update(scope);
     },
     update() {
+      if (immutable)
+        scope.data = scope.data.slice(0);
       const {data} = scope;
-      for (let i = 0, {length} = data; i < length; i += 10)
-        data[i].label += ' !!!';
+      const {length} = data;
+      for (let cb = immutable ? _new : _update, i = 0; i < length; i += 10)
+        cb(data[i], i, data);
       update(scope);
     },
     selected: -1,
-    data: [],
+    data: []
   };
   return scope;
 };
+exports.State = State;

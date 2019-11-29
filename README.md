@@ -2,12 +2,12 @@
 An utility to centralize and rule common js-framework-benchmark test cases.
 
 ```js
-import Scope from 'js-framework-benchmark-utils';
-// or const Scope = require('js-framework-benchmark-utils');
+import {State} from 'js-framework-benchmark-utils';
+// or const State = require('js-framework-benchmark-utils');
 
-const scope = Scope(
-  // function that will receive the scope reference per each update
-  function update(scope = {
+const state = State(
+  // function that will receive the state reference per each update
+  function update(state = {
     // database
     data,     // the Array containing all items
     selected, // the currently selected item.id or -1
@@ -30,10 +30,10 @@ const scope = Scope(
   // or do anything else
 });
 
-// the scope has all its utilities in here too
-scope.run();
-scope.select(123);
-scope.remove(1);
+// the state has all its utilities in here too
+state.run();
+state.select(123);
+state.remove(1);
 ```
 
-The `scope` reference can be used to add actions within the `update` function, or outside it, keeping the update related to rows/items changes only.
+The `state` reference can be used to add actions within the `update` function, or outside it, keeping the update related to rows/items changes only.

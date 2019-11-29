@@ -1,5 +1,5 @@
 let _id = 1;
-const _build = (count) => {
+export const buildData = (count) => {
     const adjectives = ["pretty", "large", "big", "small", "tall", "short", "long", "handsome", "plain", "quaint", "clean", "elegant", "easy", "angry", "crazy", "helpful", "mushy", "odd", "unsightly", "adorable", "important", "inexpensive", "cheap", "expensive", "fancy"];
     const colours = ["red", "yellow", "blue", "green", "pink", "brown", "purple", "brown", "white", "black", "orange"];
     const nouns = ["table", "chair", "house", "bbq", "desk", "car", "pony", "cookie", "sandwich", "burger", "pizza", "mouse", "keyboard"];
@@ -23,12 +23,12 @@ const _update = item => {
   item.label += ' !!!';
 };
 
-export default (update, immutable = false) => {
+export const State = (update, immutable = false) => {
   const scope = {
     add() {
       if (immutable)
         scope.data = scope.data.slice(0);
-      scope.data.push(..._build(1000));
+      scope.data.push(...buildData(1000));
       update(scope);
     },
     clear() {
@@ -43,11 +43,11 @@ export default (update, immutable = false) => {
       update(scope);
     },
     run() {
-      scope.data = _build(1000);
+      scope.data = buildData(1000);
       update(scope);
     },
     runLots() {
-      scope.data = _build(10000);
+      scope.data = buildData(10000);
       update(scope);
     },
     select(id) {

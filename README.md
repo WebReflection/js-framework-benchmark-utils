@@ -1,6 +1,6 @@
 # js-framework-benchmark-utils
 
-[![Build Status](https://travis-ci.com/WebReflection/js-framework-benchmark-utils.svg?branch=master)](https://travis-ci.com/WebReflection/js-framework-benchmark-utils)
+[![Build Status](https://travis-ci.com/WebReflection/js-framework-benchmark-utils.svg?branch=master)](https://travis-ci.com/WebReflection/js-framework-benchmark-utils) [![Coverage Status](https://coveralls.io/repos/github/WebReflection/js-framework-benchmark-utils/badge.svg?branch=master)](https://coveralls.io/github/WebReflection/js-framework-benchmark-utils?branch=master)
 
 An utility to centralize and rule common js-framework-benchmark test cases.
 

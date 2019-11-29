@@ -5,7 +5,7 @@ An utility to centralize and rule common js-framework-benchmark test cases.
 import Scope from 'js-framework-benchmark-utils';
 // or const Scope = require('js-framework-benchmark-utils');
 
-const scope = Scope(function update({
+const scope = Scope(function update(scope = {
 
   // database
   data,     // the Array containing all items

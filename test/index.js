@@ -1,8 +1,10 @@
 const {State} = require('../cjs');
 
+console.time('js-framework-benchmark');
 test(State(Object, true));
 test(State(Object));
 test(State());
+console.timeEnd('js-framework-benchmark');
 
 function test(state) {
   console.assert(state.data.length === 0);

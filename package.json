@@ -1,6 +1,6 @@
 {
   "name": "js-framework-benchmark-utils",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "An utility to centralize and rule common js-framework-benchmark test cases.",
   "main": "cjs/index.js",
   "module": "esm/index.js",

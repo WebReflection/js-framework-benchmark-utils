@@ -2,6 +2,7 @@ const {State} = require('../cjs');
 
 test(State(Object, true));
 test(State(Object));
+test(State());
 
 function test(state) {
   console.assert(state.data.length === 0);

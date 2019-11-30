@@ -32,17 +32,13 @@ const _update = item => {
 // This utility creates a new, fully self-bound, state that will invoke
 // the optional callback(state) whenever an action is performed.
 // Shallow copies, as in {...state} would retain `data` and `selected`
-// from the older state, as getters get lost in the process.
+// from the older state.
 // If you need a shallow copy of a state, use the strategy
 // suggested in `neverland` benchmark, which is:
 // `let state = State($ => {state = $});`
 // and refer to that `state` instead of the one passed along
 // the reducer, or whatever mechanism you use for states.
 export const State = (callback, immutable = false) => {
-
-  // private readonly references
-  let data = [];
-  let selected = -1;
 
   // private utilities
   const update = callback || (() => {});
@@ -52,31 +48,32 @@ export const State = (callback, immutable = false) => {
   const state = {
 
     // state data and selected info
-    get data() { return data; },
-    get selected() { return selected; },
+    data: [],
+    selected: -1,
 
     // benchmark related methods for benchmark actions
     add() {
       if (immutable)
-        data = data.slice(0);
-      data.push(...buildData(1000));
+        state.data = state.data.slice(0);
+      state.data.push(...buildData(1000));
       update(state);
     },
     clear() {
-      data = [];
+      state.data = [];
       update(state);
     },
     run() {
-      data = buildData(1000);
+      state.data = buildData(1000);
       update(state);
     },
     runLots() {
-      data = buildData(10000);
+      state.data = buildData(10000);
       update(state);
     },
     swapRows() {
       if (immutable)
-        data = data.slice(0);
+        state.data = state.data.slice(0);
+      const {data} = state;
       if (data.length > 998) {
         const tmp = data[1];
         data[1] = data[998];
@@ -86,7 +83,8 @@ export const State = (callback, immutable = false) => {
     },
     update() {
       if (immutable)
-        data = data.slice(0);
+        state.data = state.data.slice(0);
+      const {data} = state;
       for (let i = 0, {length} = data; i < length; i += 10)
         updateItem(data[i], i, data);
       update(state);
@@ -95,12 +93,13 @@ export const State = (callback, immutable = false) => {
     // single item related methods for links actions
     remove(id) {
       if (immutable)
-        data = data.slice(0);
+        state.data = state.data.slice(0);
+      const {data} = state;
       data.splice(data.findIndex(d => d.id === id), 1);
       update(state);
     },
     select(id) {
-      selected = id;
+      state.selected = id;
       update(state);
     }
   };

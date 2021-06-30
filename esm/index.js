@@ -40,6 +40,7 @@ export const State = (callback, immutable = false, cache = () => {}) => {
   // private utilities
   const update = callback || (() => {});
   const updateItem = immutable ? _new : _update;
+  let danger = null;
 
   // the returned self bound state
   const state = {
@@ -98,6 +99,25 @@ export const State = (callback, immutable = false, cache = () => {}) => {
     select(id) {
       state.selected = id;
       update(state);
+    },
+
+    // non delegated handlers
+    /* istanbul ignore next */
+    removeRow({currentTarget}) {
+      const id = +currentTarget.closest('tr').id;
+      const {data} = state;
+      if (immutable)
+        state.data = data.slice(0);
+      data.splice(data.findIndex(d => d.id === id), 1);
+      update(state);
+    },
+    /* istanbul ignore next */
+    selectRow({currentTarget}) {
+      if (danger)
+        danger.remove('danger');
+      danger = currentTarget.closest('tr').classList;
+      danger.add('danger');
+      state.selected = +danger.id;
     }
   };
   return state;

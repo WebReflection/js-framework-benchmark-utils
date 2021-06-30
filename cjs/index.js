@@ -4,24 +4,21 @@ let _id = 1;
 const _random = max => Math.round(Math.random() * 1000) % max;
 
 // creates a new Array of items filled up to the specified length
-const buildData = length => {
+const buildData = (length, cache, data) => {
   const adjectives = ["pretty", "large", "big", "small", "tall", "short", "long", "handsome", "plain", "quaint", "clean", "elegant", "easy", "angry", "crazy", "helpful", "mushy", "odd", "unsightly", "adorable", "important", "inexpensive", "cheap", "expensive", "fancy"];
   const colours = ["red", "yellow", "blue", "green", "pink", "brown", "purple", "brown", "white", "black", "orange"];
   const nouns = ["table", "chair", "house", "bbq", "desk", "car", "pony", "cookie", "sandwich", "burger", "pizza", "mouse", "keyboard"];
-  const data = new Array(length);
   for (let i = 0; i < length; i++) {
-    data[i] = {
-      id: _id++,
+    data.push({
+      id: _id,
+      html: cache(data, _id++),
       label: adjectives[_random(adjectives.length)] + " " +
              colours[_random(colours.length)] + " " +
              nouns[_random(nouns.length)]
-    };
+    });
   }
-  return data;
 };
 exports.buildData = buildData;
-
-
 
 const _new = (item, i, data) => {
   data[i] = {...item, label: item.label + ' !!!'};
@@ -40,7 +37,7 @@ const _update = item => {
 // `let state = State($ => {state = $});`
 // and refer to that `state` instead of the one passed along
 // the reducer, or whatever mechanism you use for states.
-const State = (callback, immutable = false) => {
+const State = (callback, immutable = false, cache = () => {}) => {
 
   // private utilities
   const update = callback || (() => {});
@@ -57,7 +54,7 @@ const State = (callback, immutable = false) => {
     add() {
       if (immutable)
         state.data = state.data.slice(0);
-      state.data.push(...buildData(1000));
+      buildData(1000, cache, state.data);
       update(state);
     },
     clear() {
@@ -65,11 +62,11 @@ const State = (callback, immutable = false) => {
       update(state);
     },
     run() {
-      state.data = buildData(1000);
+      buildData(1000, cache, state.data = []);
       update(state);
     },
     runLots() {
-      state.data = buildData(10000);
+      buildData(10000, cache, state.data = []);
       update(state);
     },
     swapRows() {

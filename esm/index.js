@@ -103,8 +103,8 @@ export const State = (callback, immutable = false, cache = () => {}) => {
 
     // non delegated handlers
     /* istanbul ignore next */
-    removeRow({currentTarget}) {
-      const id = +currentTarget.closest('tr').id;
+    removeRow({target}) {
+      const id = +target.closest('tr').id;
       const {data} = state;
       if (immutable)
         state.data = data.slice(0);
@@ -112,11 +112,11 @@ export const State = (callback, immutable = false, cache = () => {}) => {
       update(state);
     },
     /* istanbul ignore next */
-    selectRow({currentTarget}) {
+    selectRow({target}) {
       if (danger)
-        danger.remove('danger');
-      danger = currentTarget.closest('tr').classList;
-      danger.add('danger');
+        danger.classList.remove('danger');
+      danger = target.closest('tr');
+      danger.classList.add('danger');
       state.selected = +danger.id;
     }
   };

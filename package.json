@@ -10,6 +10,20 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "test": "nyc node ./test/index.js"
   },
+  "exports": {
+    ".": {
+      "require": "./cjs/index.js",
+      "import": "./esm/index.js"
+    },
+    "./immutable": {
+      "require": "./cjs/immutable.js",
+      "import": "./esm/immutable.js"
+    },
+    "./mutable": {
+      "require": "./cjs/mutable.js",
+      "import": "./esm/mutable.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/WebReflection/js-framework-benchmark-utils.git"
@@ -25,8 +39,8 @@
   },
   "homepage": "https://github.com/WebReflection/js-framework-benchmark-utils#readme",
   "devDependencies": {
-    "ascjs": "^3.1.2",
-    "coveralls": "^3.0.9",
-    "nyc": "^14.1.1"
+    "ascjs": "^6.0.3",
+    "coveralls": "^3.1.1",
+    "nyc": "^17.1.0"
   }
 }
